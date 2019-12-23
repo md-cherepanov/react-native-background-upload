@@ -35,6 +35,8 @@ import java.io.File;
 public class UploaderModule extends ReactContextBaseJavaModule {
   private static final String TAG = "UploaderBridge";
 
+  private UploadStatusDelegate statusDelegate;
+
   public UploaderModule(ReactApplicationContext reactContext) {
     super(reactContext);
     UploadService.NAMESPACE = reactContext.getApplicationInfo().packageName;
@@ -140,7 +142,7 @@ public class UploaderModule extends ReactContextBaseJavaModule {
     final String customUploadId = options.hasKey("customUploadId") && options.getType("method") == ReadableType.String ? options.getString("customUploadId") : null;
 
     try {
-      UploadStatusDelegate statusDelegate = new UploadStatusDelegate() {
+      statusDelegate = new UploadStatusDelegate() {
         @Override
         public void onProgress(Context context, UploadInfo uploadInfo) {
           WritableMap params = Arguments.createMap();
